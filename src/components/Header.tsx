@@ -41,10 +41,8 @@ export function Header() {
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
           <a href="#" className="flex items-center gap-2">
-            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-cyan to-accent flex items-center justify-center">
-              <span className="text-primary-foreground font-display font-bold text-xl">N</span>
-            </div>
-            <span className="font-display font-bold text-xl text-foreground">NexaTech</span>
+            <img src="./logo-new.png" alt="" width={40} height={40} />
+            <span className="font-display font-bold text-xl text-foreground">Oolin</span>
           </a>
 
           {/* Desktop Navigation */}

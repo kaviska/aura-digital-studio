@@ -34,17 +34,15 @@ export function Footer() {
           {/* Brand */}
           <div className="lg:col-span-1">
             <a href="#" className="flex items-center gap-2 mb-6">
-              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-cyan to-accent flex items-center justify-center">
-                <span className="text-primary-foreground font-display font-bold text-xl">N</span>
-              </div>
-              <span className="font-display font-bold text-xl">NexaTech</span>
+             <img src="/logo-new.png" alt="" width={40} height={40} />
+              <span className="font-display font-bold text-xl">Oolin</span>
             </a>
             <p className="text-muted-foreground text-sm mb-6">
               Transforming ideas into digital reality. We build scalable, innovative 
               solutions that drive business growth.
             </p>
             <p className="text-sm text-muted-foreground">
-              © {new Date().getFullYear()} NexaTech. All rights reserved.
+              © {new Date().getFullYear()} Oolin. All rights reserved.
             </p>
           </div>
 

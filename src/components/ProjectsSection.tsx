@@ -1,75 +1,109 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, useState } from "react";
-import { ExternalLink, Github, FileText } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-const categories = ["All", "Web Apps", "Mobile Apps", "E-commerce", "SaaS"];
+const categories = ["All", "POS Systems", "E-commerce", "Web Apps", "WordPress"];
 
 const projects = [
   {
     id: 1,
-    title: "FinTrack Pro",
-    description: "AI-powered financial management platform with real-time analytics and automated reporting.",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop",
-    category: "SaaS",
-    techStack: ["React", "Node.js", "PostgreSQL", "TensorFlow"],
-    liveUrl: "#",
+    title: "POS System",
+    description: "A comprehensive web-based Point of Sale system with admin dashboard. Features include inventory management, sales tracking, and user authentication. Login with admin@example.com / password for demo access.",
+    image: "/groccery.svg",
+    category: "POS Systems",
+    techStack: ["Next", "React", "Tailwind", "MySql", "github"],
+    liveUrl: "https://temp-pos.vercel.app",
     githubUrl: "#",
     caseStudyUrl: "#",
   },
   {
     id: 2,
-    title: "ShopEase",
-    description: "Multi-vendor e-commerce marketplace with advanced inventory management and payment integration.",
-    image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=400&fit=crop",
-    category: "E-commerce",
-    techStack: ["Next.js", "Stripe", "MongoDB", "Redis"],
-    liveUrl: "#",
+    title: "Restaurant POS System",
+    description: "Multi-role restaurant POS system with separate access for Admin, Kitchen, Cashier, and Waiter. Features role-based permissions, order management, kitchen display system, and real-time updates.",
+    image: "/resturant.avif",
+    category: "POS Systems",
+    techStack: ["Laravel", "Tailwind", "React", "Redux", "MUI"],
+    liveUrl: "https://white-octopus-933718.hostingersite.com",
     githubUrl: "#",
     caseStudyUrl: "#",
   },
   {
     id: 3,
-    title: "HealthMate",
-    description: "Telemedicine mobile app connecting patients with healthcare providers through video consultations.",
-    image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=600&h=400&fit=crop",
-    category: "Mobile Apps",
-    techStack: ["React Native", "Firebase", "WebRTC", "Node.js"],
-    liveUrl: "#",
+    title: "Japanese E-Commerce",
+    description: "A comprehensive Japanese e-commerce platform built with WooCommerce. Features include multi-language support, Japanese payment gateways, and custom product catalog management.",
+    image: "/groccery.svg",
+    category: "E-commerce",
+    techStack: ["Laravel", "Tailwind", "React", "Redux", "MUI"],
+    liveUrl: "https://iymart.jp/",
     githubUrl: "#",
     caseStudyUrl: "#",
   },
   {
     id: 4,
-    title: "TaskFlow",
-    description: "Enterprise project management solution with Kanban boards, time tracking, and team collaboration.",
-    image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600&h=400&fit=crop",
+    title: "Japanese Car Sales",
+    description: "Japanese car dealership website with advanced search filters, car listings management, and inquiry system. Features include vehicle comparison, detailed specifications, and contact forms.",
+    image: "/car.webp",
     category: "Web Apps",
-    techStack: ["Vue.js", "Laravel", "MySQL", "Socket.io"],
-    liveUrl: "#",
+    techStack: ["Laravel", "Php", "Bootstrap", "Css", "JavaScript"],
+    liveUrl: "https://nipponcars.jp/",
     githubUrl: "#",
     caseStudyUrl: "#",
   },
   {
     id: 5,
-    title: "EduLearn",
-    description: "Online learning platform with live classes, course management, and progress tracking.",
-    image: "https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=600&h=400&fit=crop",
-    category: "SaaS",
-    techStack: ["React", "Django", "PostgreSQL", "AWS"],
-    liveUrl: "#",
+    title: "Instagram Downloader Tool",
+    description: "A web tool for downloading Instagram content including photos, videos, and stories. Built with Next.js and features a clean, user-friendly interface with fast download capabilities.",
+    image: "/instragram.jpg",
+    category: "Web Apps",
+    techStack: ["Next", "React", "MUI", "Tailwind", "github"],
+    liveUrl: "https://savefrominsta.app/",
     githubUrl: "#",
     caseStudyUrl: "#",
   },
   {
     id: 6,
-    title: "FoodieApp",
-    description: "Food delivery mobile application with real-time order tracking and restaurant management.",
-    image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&h=400&fit=crop",
-    category: "Mobile Apps",
-    techStack: ["Flutter", "Firebase", "Google Maps", "Stripe"],
-    liveUrl: "#",
+    title: "Parking Booking System",
+    description: "Airport parking booking platform with Stripe payment integration. Features include real-time availability, booking management, and automated confirmation emails.",
+    image: "/Meet&Greet.png",
+    category: "Web Apps",
+    techStack: ["Html", "Css", "Bootstrap", "Php", "Stripe"],
+    liveUrl: "https://parking.yourmeetandgreetservice.co.uk/",
+    githubUrl: "#",
+    caseStudyUrl: "#",
+  },
+  {
+    id: 7,
+    title: "Next.js E-Commerce",
+    description: "Modern e-commerce website built with Next.js featuring product catalog, shopping cart, user authentication, and responsive design. Includes Redux for state management and Material-UI components.",
+    image: "/e-commerce-img.avif",
+    category: "E-commerce",
+    techStack: ["Laravel", "React", "Tailwind", "Redux", "MUI", "github"],
+    liveUrl: "https://next-e-commerce-neon.vercel.app/",
+    githubUrl: "#",
+    caseStudyUrl: "#",
+  },
+   {
+    id: 9,
+    title: "ERP System",
+   
+    image: "/dashboard.png",
+    description: "Comprehensive ERP system built for travel agencies featuring 12 specialized panels. Includes export functionality to PDF and Excel, automated invoice generation, and complete account management system for streamlined travel business operations.",
+    category: "Web Apps",
+    techStack: ["AI", "React", "Next", "Tailwind", "OpenAI"],
+    liveUrl: "http://cvreviewexpert.com/",
+    githubUrl: "#",
+    caseStudyUrl: "#",
+  },
+  {
+    id: 9,
+    title: "CV Review Expert",
+    description: "AI-powered CV review platform that provides intelligent feedback and recommendations to improve your resume. Features include automated analysis, personalized suggestions, and professional formatting tips.",
+    image: "/cvreview.jpeg",
+    category: "Web Apps",
+    techStack: ["AI", "React", "Next", "Tailwind", "OpenAI"],
+    liveUrl: "http://cvreviewexpert.com/",
     githubUrl: "#",
     caseStudyUrl: "#",
   },
@@ -155,20 +189,10 @@ export function ProjectsSection() {
                 </span>
 
                 {/* Overlay Buttons */}
-                <div className="absolute inset-0 flex items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-background/50 backdrop-blur-sm">
+                <div className="absolute inset-0 flex items-center justify-center gap-3 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300 bg-background/50 backdrop-blur-sm">
                   <Button variant="hero" size="icon" asChild>
                     <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
                       <ExternalLink className="w-5 h-5" />
-                    </a>
-                  </Button>
-                  <Button variant="glass" size="icon" asChild>
-                    <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-                      <Github className="w-5 h-5" />
-                    </a>
-                  </Button>
-                  <Button variant="glass" size="icon" asChild>
-                    <a href={project.caseStudyUrl}>
-                      <FileText className="w-5 h-5" />
                     </a>
                   </Button>
                 </div>
