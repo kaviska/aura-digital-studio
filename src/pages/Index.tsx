@@ -1,13 +1,46 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { Helmet } from "react-helmet-async";
+import { Header } from "@/components/Header";
+import { HeroSection } from "@/components/HeroSection";
+import { AboutSection } from "@/components/AboutSection";
+import { ServicesSection } from "@/components/ServicesSection";
+import { ProjectsSection } from "@/components/ProjectsSection";
+import { TechStackSection } from "@/components/TechStackSection";
+import { WhyChooseUsSection } from "@/components/WhyChooseUsSection";
+import { TestimonialsSection } from "@/components/TestimonialsSection";
+import { ContactSection } from "@/components/ContactSection";
+import { Footer } from "@/components/Footer";
 
 const Index = () => {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
+    <>
+      <Helmet>
+        <title>NexaTech - We Build Scalable Digital Solutions | IT Company</title>
+        <meta 
+          name="description" 
+          content="Transform your business with cutting-edge technology. NexaTech delivers innovative web, mobile, and software solutions that drive growth and efficiency." 
+        />
+        <meta name="keywords" content="IT company, software development, web development, mobile apps, SaaS, custom software, React, Node.js" />
+        <meta property="og:title" content="NexaTech - We Build Scalable Digital Solutions" />
+        <meta property="og:description" content="Transform your business with cutting-edge technology. We deliver innovative web, mobile, and software solutions." />
+        <meta property="og:type" content="website" />
+        <link rel="canonical" href="https://nexatech.com" />
+      </Helmet>
+      
+      <div className="min-h-screen bg-background">
+        <Header />
+        <main>
+          <HeroSection />
+          <AboutSection />
+          <ServicesSection />
+          <ProjectsSection />
+          <TechStackSection />
+          <WhyChooseUsSection />
+          <TestimonialsSection />
+          <ContactSection />
+        </main>
+        <Footer />
       </div>
-    </div>
+    </>
   );
 };
 
