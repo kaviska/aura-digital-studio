@@ -93,9 +93,9 @@ export function HeroSection() {
             className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-20 pt-10 border-t border-border/50"
           >
             {[
-              { value: "10+", label: "Years Experience" },
-              { value: "200+", label: "Projects Delivered" },
-              { value: "50+", label: "Happy Clients" },
+              { value: "2+", label: "Years Experience" },
+              { value: "10+", label: "Projects Delivered" },
+              { value: "5+", label: "Happy Clients" },
               { value: "99%", label: "Client Satisfaction" },
             ].map((stat, index) => (
               <motion.div

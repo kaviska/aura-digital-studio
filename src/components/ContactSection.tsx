@@ -7,32 +7,35 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 
+
+
+
 const contactInfo = [
   {
     icon: Mail,
     label: "Email",
-    value: "hello@Oolin.com",
-    href: "mailto:hello@Oolin.com",
+    value: "info.oolin@gmail.com",
+    href: "mailto:info.oolin@gmail.com",
   },
   {
     icon: Phone,
     label: "Phone",
-    value: "+1 (555) 123-4567",
-    href: "tel:+15551234567",
+    value: "+81 80-4818-8844",
+    href: "tel:+818048188844",
   },
   {
     icon: MapPin,
     label: "Location",
-    value: "San Francisco, CA",
+    value: " 383-24 Oyaguchi, Matsudo, Chiba 270-0005, Japan",
     href: "#",
   },
 ];
 
-const socialLinks = [
-  { icon: Linkedin, href: "#", label: "LinkedIn" },
-  { icon: Github, href: "#", label: "GitHub" },
-  { icon: Twitter, href: "#", label: "Twitter" },
-];
+// const socialLinks = [
+//   { icon: Linkedin, href: "#", label: "LinkedIn" },
+//   { icon: Github, href: "#", label: "GitHub" },
+//   { icon: Twitter, href: "#", label: "Twitter" },
+// ];
 
 export function ContactSection() {
   const ref = useRef(null);
@@ -205,8 +208,8 @@ export function ContactSection() {
               transition={{ duration: 0.5, delay: 0.5 }}
               className="mt-8"
             >
-              <p className="text-sm text-muted-foreground mb-4">Follow us on social media</p>
-              <div className="flex gap-3">
+              {/* <p className="text-sm text-muted-foreground mb-4">Follow us on social media</p> */}
+              {/* <div className="flex gap-3">
                 {socialLinks.map((social) => (
                   <a
                     key={social.label}
@@ -217,7 +220,7 @@ export function ContactSection() {
                     <social.icon className="w-5 h-5 text-muted-foreground group-hover:text-cyan transition-colors" />
                   </a>
                 ))}
-              </div>
+              </div> */}
             </motion.div>
           </motion.div>
         </div>

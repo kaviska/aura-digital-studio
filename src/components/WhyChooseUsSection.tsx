@@ -32,7 +32,7 @@ const reasons = [
   {
     icon: Award,
     title: "Proven Track Record",
-    description: "200+ successful projects and 50+ satisfied clients speak to our commitment to excellence.",
+    description: "10+ successful projects and 5+ satisfied clients speak to our commitment to excellence.",
   },
 ];
 

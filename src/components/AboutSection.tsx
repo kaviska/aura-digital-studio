@@ -64,22 +64,22 @@ export function AboutSection() {
             <div>
               <h3 className="font-display text-2xl font-bold mb-4">Our Story</h3>
               <p className="text-muted-foreground mb-4">
-                Founded in 2014, Oolin began as a small team of passionate developers 
+                Oolin began as a small team of passionate developers 
                 with a shared vision: to make world-class software development accessible 
                 to businesses of all sizes.
               </p>
               <p className="text-muted-foreground">
-                Today, we're a full-service IT company with a global team of 50+ experts, 
-                serving clients across 20+ countries. From startups to Fortune 500 companies, 
+                Today, we're a full-service IT company with a global team of 5+ experts, 
+                serving clients across 2+ countries. From startups to Fortune 5+ companies, 
                 we've delivered solutions that matter.
               </p>
             </div>
             <div className="grid grid-cols-2 gap-4">
               {[
-                { value: "10+", label: "Years in Business" },
-                { value: "200+", label: "Projects Completed" },
-                { value: "50+", label: "Team Members" },
-                { value: "20+", label: "Countries Served" },
+                { value: "2+", label: "Years in Business" },
+                { value: "10+", label: "Projects Completed" },
+                { value: "5+", label: "Team Members" },
+                { value: "2+", label: "Countries Served" },
               ].map((stat, index) => (
                 <motion.div
                   key={stat.label}
