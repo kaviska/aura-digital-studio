@@ -64,7 +64,7 @@ export function AboutSection() {
             <div>
               <h3 className="font-display text-2xl font-bold mb-4">Our Story</h3>
               <p className="text-muted-foreground mb-4">
-                Founded in 2014, NexaTech began as a small team of passionate developers 
+                Founded in 2014, Oolin began as a small team of passionate developers 
                 with a shared vision: to make world-class software development accessible 
                 to businesses of all sizes.
               </p>
