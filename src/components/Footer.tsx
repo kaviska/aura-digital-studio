@@ -34,7 +34,7 @@ export function Footer() {
           {/* Brand */}
           <div className="lg:col-span-1">
             <a href="#" className="flex items-center gap-2 mb-6">
-             <img src="/logo-new.png" alt="" width={40} height={40} />
+             <img src="/logo%20(1).png" alt="Oolin logo" width={40} height={40} />
               <span className="font-display font-bold text-xl">Oolin</span>
             </a>
             <p className="text-muted-foreground text-sm mb-6">
