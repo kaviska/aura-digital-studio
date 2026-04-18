@@ -34,15 +34,15 @@ export function Footer() {
           {/* Brand */}
           <div className="lg:col-span-1">
             <a href="#" className="flex items-center gap-2 mb-6">
-             <img src="/logo%20(1).png" alt="Oolin logo" width={40} height={40} />
-              <span className="font-display font-bold text-xl">Oolin</span>
+             <img src="/logo%20(1).png" alt="OOLLN logo" width={40} height={40} />
+              <span className="font-display font-bold text-xl">OOLLN</span>
             </a>
             <p className="text-muted-foreground text-sm mb-6">
               Transforming ideas into digital reality. We build scalable, innovative 
               solutions that drive business growth.
             </p>
             <p className="text-sm text-muted-foreground">
-              © {new Date().getFullYear()} Oolin. All rights reserved.
+              © {new Date().getFullYear()} OOLLN. All rights reserved.
             </p>
           </div>
 

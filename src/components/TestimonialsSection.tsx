@@ -9,7 +9,7 @@ const testimonials = [
     name: "Sarah Johnson",
     role: "CEO, TechStart Inc.",
     image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop",
-    content: "Oolin transformed our vision into reality. Their expertise in React and Node.js helped us launch our SaaS platform 2 months ahead of schedule.",
+    content: "OOLLN transformed our vision into reality. Their expertise in React and Node.js helped us launch our SaaS platform 2 months ahead of schedule.",
     rating: 5,
   },
   {
@@ -25,7 +25,7 @@ const testimonials = [
     name: "Emily Rodriguez",
     role: "Founder, HealthTech Solutions",
     image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop",
-    content: "Working with Oolin was a game-changer. Their mobile development expertise helped us reach millions of users with our healthcare app.",
+    content: "Working with OOLLN was a game-changer. Their mobile development expertise helped us reach millions of users with our healthcare app.",
     rating: 5,
   },
   {

@@ -41,8 +41,8 @@ export function Header() {
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
           <a href="#" className="flex items-center gap-2">
-            <img src="/logo%20(1).png" alt="Oolin logo" width={40} height={40} />
-            <span className="font-display font-bold text-xl text-foreground">Oolin</span>
+            <img src="/logo%20(1).png" alt="OOLLN logo" width={40} height={40} />
+            <span className="font-display font-bold text-xl text-foreground">OOLLN</span>
           </a>
 
           {/* Desktop Navigation */}
