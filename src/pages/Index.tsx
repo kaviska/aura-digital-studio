@@ -14,7 +14,7 @@ const Index = () => {
   return (
     <>
       <Helmet>
-        <title>Oolin - We Build Scalable Digital Solutions | IT Company</title>
+        <title>OOLLN - We Build Scalable Digital Solutions | IT Company</title>
         <meta 
           name="description" 
           content="Transform your business with cutting-edge technology. Oolin delivers innovative web, mobile, and software solutions that drive growth and efficiency." 
