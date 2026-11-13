@@ -88,8 +88,15 @@ export function AdminDashboard() {
     const data = new FormData();
     data.append("image", imageFile);
     const response = await fetch("/api/projects/upload", { method: "POST", body: data });
-    const result = await response.json();
-    if (!response.ok) throw new Error(result.error || "Unable to upload image");
+    const result = await response.json().catch(() => ({
+      error: "Upload endpoint returned an invalid response.",
+      code: "INVALID_SERVER_RESPONSE",
+    }));
+    if (!response.ok) {
+      const code = result.code ? ` [${result.code}]` : "";
+      const details = result.details ? ` Details: ${result.details}` : "";
+      throw new Error(`${result.error || "Unable to upload image"}${code}${details}`);
+    }
     return result.image as string;
   }
 
