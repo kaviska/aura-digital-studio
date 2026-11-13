@@ -1,12 +1,12 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const categories = ["All", "POS Systems", "E-commerce", "Web Apps", "WordPress"];
 
-const projects = [
+const fallbackProjects = [
   {
     id: 1,
     title: "POS System",
@@ -137,6 +137,23 @@ export function ProjectsSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [activeCategory, setActiveCategory] = useState("All");
+  const [projects, setProjects] = useState(fallbackProjects);
+
+  useEffect(() => {
+    fetch("/api/projects")
+      .then(async (response) => {
+        if (!response.ok) throw new Error("Unable to load projects");
+        return response.json();
+      })
+      .then((managedProjects) => {
+        if (Array.isArray(managedProjects)) {
+          setProjects(managedProjects);
+        }
+      })
+      .catch(() => {
+        // Keep the bundled portfolio visible if the database is unavailable.
+      });
+  }, []);
 
   const filteredProjects = activeCategory === "All"
     ? projects
@@ -214,11 +231,13 @@ export function ProjectsSection() {
 
                 {/* Overlay Buttons */}
                 <div className="absolute inset-0 flex items-center justify-center gap-3 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300 bg-background/50 backdrop-blur-sm">
-                  <Button variant="hero" size="icon" asChild>
-                    <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-                      <ExternalLink className="w-5 h-5" />
-                    </a>
-                  </Button>
+                  {project.liveUrl && (
+                    <Button variant="hero" size="icon" asChild>
+                      <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
+                        <ExternalLink className="w-5 h-5" />
+                      </a>
+                    </Button>
+                  )}
                 </div>
               </div>
 

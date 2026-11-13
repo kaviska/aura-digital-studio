@@ -9,7 +9,7 @@ export function HeroSection() {
       {/* Background Image */}
       <div className="absolute inset-0">
         <img
-          src={heroBg}
+          src={heroBg.src}
           alt="Technology background"
           className="w-full h-full object-cover"
         />
