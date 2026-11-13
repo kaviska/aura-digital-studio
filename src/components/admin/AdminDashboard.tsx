@@ -37,6 +37,7 @@ const emptyProject = (): Omit<Project, "id" | "sortOrder"> => ({
 export function AdminDashboard() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [form, setForm] = useState(emptyProject());
+  const [techStackInput, setTechStackInput] = useState("");
   const [editingId, setEditingId] = useState<string | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(true);
@@ -64,6 +65,7 @@ export function AdminDashboard() {
   function startCreate() {
     setEditingId(null);
     setForm(emptyProject());
+    setTechStackInput("");
     setImageFile(null);
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
@@ -79,6 +81,7 @@ export function AdminDashboard() {
       liveUrl: project.liveUrl || "",
       credentials: project.credentials,
     });
+    setTechStackInput(project.techStack.join(", "));
     setImageFile(null);
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
@@ -110,7 +113,10 @@ export function AdminDashboard() {
       const payload = {
         ...form,
         image,
-        techStack: form.techStack,
+        techStack: techStackInput
+          .split(",")
+          .map((technology) => technology.trim())
+          .filter(Boolean),
       };
       const response = await fetch(editingId ? `/api/projects/${editingId}` : "/api/projects", {
         method: editingId ? "PUT" : "POST",
@@ -230,7 +236,7 @@ export function AdminDashboard() {
             <label className="block text-sm font-medium">Description<textarea className="mt-2 flex min-h-28 w-full rounded-md border border-input bg-background px-3 py-2 text-sm" value={form.description} onChange={(event) => setForm({ ...form, description: event.target.value })} required /></label>
             <div className="grid gap-4 sm:grid-cols-2">
               <label className="block text-sm font-medium">Category<Input className="mt-2" value={form.category} onChange={(event) => setForm({ ...form, category: event.target.value })} /></label>
-              <label className="block text-sm font-medium">Technologies<Input className="mt-2" value={form.techStack.join(", ")} onChange={(event) => setForm({ ...form, techStack: event.target.value.split(",").map((value) => value.trim()).filter(Boolean) })} placeholder="React, Next, MongoDB" /></label>
+              <label className="block text-sm font-medium">Technologies<Input className="mt-2" value={techStackInput} onChange={(event) => setTechStackInput(event.target.value)} placeholder="React, Next, MongoDB" /></label>
             </div>
             <label className="block text-sm font-medium">Project link (optional)<Input className="mt-2" type="url" value={form.liveUrl} onChange={(event) => setForm({ ...form, liveUrl: event.target.value })} placeholder="https://" /></label>
             <label className="block text-sm font-medium">Image
