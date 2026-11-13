@@ -23,6 +23,14 @@ export async function POST(request: Request) {
     return NextResponse.json({ email });
   } catch (error) {
     console.error("Admin login failed:", error);
-    return NextResponse.json({ error: "Unable to sign in" }, { status: 500 });
+    const response: { error: string; details?: string } = {
+      error: "Unable to sign in",
+    };
+
+    if (process.env.DEBUG_API_ERRORS === "true") {
+      response.details = error instanceof Error ? error.message : String(error);
+    }
+
+    return NextResponse.json(response, { status: 500 });
   }
 }
