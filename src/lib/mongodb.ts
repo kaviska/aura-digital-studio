@@ -1,4 +1,4 @@
-import { MongoClient } from "mongodb";
+import { GridFSBucket, MongoClient } from "mongodb";
 
 const globalForMongo = globalThis as typeof globalThis & {
   mongoClient?: MongoClient;
@@ -22,4 +22,8 @@ function getMongoClient() {
 
 export function getDatabase() {
   return getMongoClient().db(process.env.MONGODB_DB || "aura_digital_studio");
+}
+
+export function getProjectImageBucket() {
+  return new GridFSBucket(getDatabase(), { bucketName: "projectImages" });
 }

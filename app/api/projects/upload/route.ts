@@ -1,18 +1,11 @@
 import { NextResponse } from "next/server";
-import { mkdir, writeFile } from "node:fs/promises";
-import path from "node:path";
-import { randomUUID } from "node:crypto";
 import { requireAdminSession } from "@/lib/auth";
+import { getProjectImageBucket } from "@/lib/mongodb";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-const allowedTypes = new Map([
-  ["image/jpeg", ".jpg"],
-  ["image/png", ".png"],
-  ["image/webp", ".webp"],
-  ["image/gif", ".gif"],
-]);
+const allowedTypes = new Set(["image/jpeg", "image/png", "image/webp", "image/gif"]);
 
 function errorResponse(
   status: number,
@@ -42,8 +35,7 @@ export async function POST(request: Request) {
       return errorResponse(400, "IMAGE_REQUIRED", "Choose an image file before uploading.");
     }
 
-    const extension = allowedTypes.get(file.type);
-    if (!extension) {
+    if (!allowedTypes.has(file.type)) {
       return errorResponse(
         415,
         "UNSUPPORTED_IMAGE_TYPE",
@@ -55,25 +47,40 @@ export async function POST(request: Request) {
       return errorResponse(413, "IMAGE_TOO_LARGE", "Image must be smaller than 5MB.");
     }
 
-    const uploadDirectory = path.join(process.cwd(), "public", "uploads", "projects");
-    await mkdir(uploadDirectory, { recursive: true });
-    const filename = `${randomUUID()}${extension}`;
-    await writeFile(path.join(uploadDirectory, filename), Buffer.from(await file.arrayBuffer()));
+    const bucket = getProjectImageBucket();
+    const filename = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+    const fileBuffer = Buffer.from(await file.arrayBuffer());
+    const uploadStream = bucket.openUploadStream(filename, {
+      metadata: { purpose: "project-image", contentType: file.type },
+    });
 
-    return NextResponse.json({ image: `/uploads/projects/${filename}` });
+    await new Promise<void>((resolve, reject) => {
+      uploadStream.once("finish", resolve);
+      uploadStream.once("error", reject);
+      uploadStream.end(fileBuffer);
+    });
+
+    return NextResponse.json({ image: `/api/projects/image/${uploadStream.id.toString()}` });
   } catch (error) {
     if (error instanceof Error && error.message === "UNAUTHORIZED") {
       return errorResponse(401, "UNAUTHORIZED", "Your admin session expired. Sign in again.");
     }
 
     console.error("Project image upload failed:", error);
-    const code = (error as NodeJS.ErrnoException)?.code;
-
-    if (code === "EROFS" || code === "EACCES" || code === "ENOENT") {
+    if (error instanceof Error && error.message.includes("MONGODB_URI")) {
       return errorResponse(
         503,
-        "UPLOAD_STORAGE_UNAVAILABLE",
-        "The server cannot write uploaded files. Vercel does not provide persistent local file storage; configure Cloudinary or S3 for production uploads.",
+        "MONGODB_NOT_CONFIGURED",
+        "MongoDB is not configured for image storage. Set MONGODB_URI in the deployment environment.",
+        error,
+      );
+    }
+
+    if (error instanceof Error && /Mongo|GridFS|MongoServer/i.test(error.name + error.message)) {
+      return errorResponse(
+        503,
+        "GRIDFS_UNAVAILABLE",
+        "MongoDB GridFS could not store the image. Check MongoDB Atlas connectivity and permissions.",
         error,
       );
     }
