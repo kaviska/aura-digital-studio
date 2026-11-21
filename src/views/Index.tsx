@@ -9,6 +9,7 @@ import { WhyChooseUsSection } from "@/components/WhyChooseUsSection";
 import { ContactSection } from "@/components/ContactSection";
 import { Footer } from "@/components/Footer";
 import { PageEffects } from "@/components/PageEffects";
+import { WhatsAppButton } from "@/components/WhatsAppButton";
 
 const Index = () => {
   return (
@@ -27,6 +28,7 @@ const Index = () => {
           <ContactSection />
         </main>
         <Footer />
+        <WhatsAppButton />
       </div>
     </>
   );

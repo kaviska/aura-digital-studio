@@ -1,9 +1,11 @@
 "use client";
 
 import { FormEvent, useEffect, useState } from "react";
-import { ArrowDown, ArrowUp, LogOut, Pencil, Plus, Trash2, Upload, X } from "lucide-react";
+import { ArrowDown, ArrowUp, FolderKanban, LogOut, MessageSquare, Pencil, Plus, Trash2, Upload, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { MessagesPanel } from "@/components/admin/MessagesPanel";
+import type { AdminContactMessage } from "@/lib/contact";
 
 type Credential = {
   label: string;
@@ -43,6 +45,14 @@ export function AdminDashboard() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
+  const [tab, setTab] = useState<"projects" | "messages">("projects");
+  const [inbox, setInbox] = useState<AdminContactMessage[]>([]);
+  const unreadCount = inbox.filter((item) => item.status === "new").length;
+
+  async function loadMessages() {
+    const response = await fetch("/api/admin/messages");
+    if (response.ok) setInbox(await response.json());
+  }
 
   async function loadProjects() {
     const response = await fetch("/api/admin/projects");
@@ -60,6 +70,10 @@ export function AdminDashboard() {
       setMessage(error instanceof Error ? error.message : "Unable to load projects");
       setLoading(false);
     });
+    loadMessages().catch(() => undefined);
+    // Refresh the inbox every minute so new enquiries appear without reloading.
+    const timer = setInterval(() => loadMessages().catch(() => undefined), 60_000);
+    return () => clearInterval(timer);
   }, []);
 
   function startCreate() {
@@ -185,7 +199,7 @@ export function AdminDashboard() {
         <div className="container mx-auto flex items-center justify-between px-4 py-5">
           <div>
             <p className="text-sm font-medium text-primary">OOLLN</p>
-            <h1 className="font-display text-2xl font-bold">Project Admin</h1>
+            <h1 className="font-display text-2xl font-bold">Admin Panel</h1>
           </div>
           <Button variant="ghost" onClick={logout}>
             <LogOut className="mr-2 h-4 w-4" /> Sign out
@@ -193,6 +207,26 @@ export function AdminDashboard() {
         </div>
       </header>
 
+      <div className="container mx-auto px-4 pt-6">
+        <div className="inline-flex gap-1 rounded-xl border border-border/60 bg-card/60 p-1">
+          <Button variant={tab === "projects" ? "default" : "ghost"} size="sm" onClick={() => setTab("projects")}>
+            <FolderKanban className="mr-2 h-4 w-4" /> Projects
+          </Button>
+          <Button variant={tab === "messages" ? "default" : "ghost"} size="sm" onClick={() => { setTab("messages"); loadMessages().catch(() => undefined); }}>
+            <MessageSquare className="mr-2 h-4 w-4" /> Messages
+            {unreadCount > 0 && (
+              <span className="ml-2 rounded-full bg-primary px-2 py-0.5 text-xs font-bold text-primary-foreground">{unreadCount}</span>
+            )}
+          </Button>
+        </div>
+      </div>
+
+      {tab === "messages" ? (
+        <div className="container mx-auto px-4 py-8">
+          <MessagesPanel messages={inbox} setMessages={setInbox} onError={setMessage} />
+          {message && <p className="mt-4 text-sm text-destructive">{message}</p>}
+        </div>
+      ) : (
       <div className="container mx-auto grid gap-8 px-4 py-8 lg:grid-cols-[minmax(0,1fr)_380px]">
         <section className="order-2 space-y-4 lg:order-1">
           <div className="flex items-center justify-between">
@@ -265,6 +299,7 @@ export function AdminDashboard() {
           </form>
         </section>
       </div>
+      )}
     </main>
   );
 }

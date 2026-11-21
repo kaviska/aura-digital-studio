@@ -1,11 +1,12 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, useState } from "react";
-import { Mail, Phone, MapPin, Send, Linkedin, Github, Twitter } from "lucide-react";
+import { Mail, Phone, MapPin, Send, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
+import { CONTACT_EMAIL, CONTACT_PHONE_DISPLAY, CONTACT_PHONE_TEL, WHATSAPP_URL } from "@/lib/contact";
 
 
 
@@ -14,14 +15,20 @@ const contactInfo = [
   {
     icon: Mail,
     label: "Email",
-    value: "info.oolin@gmail.com",
-    href: "mailto:info.oolin@gmail.com",
+    value: CONTACT_EMAIL,
+    href: `mailto:${CONTACT_EMAIL}`,
   },
   {
     icon: Phone,
     label: "Phone",
-    value: "+81 80-4818-8844",
-    href: "tel:+818048188844",
+    value: CONTACT_PHONE_DISPLAY,
+    href: `tel:${CONTACT_PHONE_TEL}`,
+  },
+  {
+    icon: MessageCircle,
+    label: "WhatsApp",
+    value: `Chat on ${CONTACT_PHONE_DISPLAY}`,
+    href: WHATSAPP_URL,
   },
   {
     icon: MapPin,
@@ -45,18 +52,33 @@ export function ContactSection() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const form = e.currentTarget;
     setIsSubmitting(true);
-    
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    toast({
-      title: "Message sent!",
-      description: "We'll get back to you as soon as possible.",
-    });
-    
-    setIsSubmitting(false);
-    (e.target as HTMLFormElement).reset();
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(Object.fromEntries(new FormData(form))),
+      });
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(result.error || "Unable to send your message.");
+
+      toast({
+        title: "Message sent!",
+        description: "Thanks for reaching out. We'll get back to you within 24 hours.",
+      });
+      form.reset();
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Message not sent",
+        description:
+          error instanceof Error ? error.message : "Please try again, or contact us by email or WhatsApp.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -92,6 +114,15 @@ export function ContactSection() {
           >
             <h3 className="font-display text-2xl font-bold mb-6">Send us a message</h3>
             <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Honeypot field to catch spam bots; hidden from real visitors */}
+              <input
+                type="text"
+                name="website"
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+                className="absolute -left-[9999px] h-0 w-0 opacity-0"
+              />
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium mb-2">
@@ -182,6 +213,7 @@ export function ContactSection() {
                   <motion.a
                     key={item.label}
                     href={item.href}
+                    {...(item.href.startsWith("http") && { target: "_blank", rel: "noopener noreferrer" })}
                     initial={{ opacity: 0, y: 20 }}
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 0.3, delay: 0.3 + index * 0.1 }}
