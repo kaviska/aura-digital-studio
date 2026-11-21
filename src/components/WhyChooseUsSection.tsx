@@ -50,7 +50,7 @@ export function WhyChooseUsSection() {
           transition={{ duration: 0.5 }}
           className="text-center mb-16"
         >
-          <span className="inline-block text-cyan font-semibold mb-4 tracking-wider uppercase text-sm">
+          <span className="section-eyebrow">
             Why Choose Us
           </span>
           <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold mb-6">
@@ -76,7 +76,7 @@ export function WhyChooseUsSection() {
               {/* Gradient Border Effect */}
               <div className="absolute -inset-0.5 bg-gradient-to-r from-cyan to-accent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur" />
               
-              <div className="relative glass rounded-2xl p-8 h-full">
+              <div className="spotlight relative glass rounded-2xl p-8 h-full">
                 {/* Icon */}
                 <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-cyan/20 to-accent/20 flex items-center justify-center mb-6 group-hover:from-cyan/30 group-hover:to-accent/30 transition-colors">
                   <reason.icon className="w-7 h-7 text-cyan" />

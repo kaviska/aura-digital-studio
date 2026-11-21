@@ -8,17 +8,19 @@ import { WhyChooseUsSection } from "@/components/WhyChooseUsSection";
 // import { TestimonialsSection } from "@/components/TestimonialsSection";
 import { ContactSection } from "@/components/ContactSection";
 import { Footer } from "@/components/Footer";
+import { PageEffects } from "@/components/PageEffects";
 
 const Index = () => {
   return (
     <>
       <div className="min-h-screen bg-background">
+        <PageEffects />
         <Header />
         <main>
           <HeroSection />
+          <ProjectsSection />
           <AboutSection />
           <ServicesSection />
-          <ProjectsSection />
           <TechStackSection />
           <WhyChooseUsSection />
           {/* <TestimonialsSection /> */}

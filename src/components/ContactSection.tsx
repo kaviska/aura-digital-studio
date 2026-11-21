@@ -69,7 +69,7 @@ export function ContactSection() {
           transition={{ duration: 0.5 }}
           className="text-center mb-16"
         >
-          <span className="inline-block text-cyan font-semibold mb-4 tracking-wider uppercase text-sm">
+          <span className="section-eyebrow">
             Get In Touch
           </span>
           <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold mb-6">

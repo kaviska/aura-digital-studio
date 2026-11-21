@@ -78,7 +78,7 @@ export function TechStackSection() {
           transition={{ duration: 0.5 }}
           className="text-center mb-16"
         >
-          <span className="inline-block text-cyan font-semibold mb-4 tracking-wider uppercase text-sm">
+          <span className="section-eyebrow">
             Our Tech Stack
           </span>
           <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold mb-6">
@@ -99,7 +99,7 @@ export function TechStackSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: categoryIndex * 0.1 }}
-              className="glass rounded-2xl p-6"
+              className="spotlight relative glass rounded-2xl p-6 hover-lift"
             >
               <h3 className="font-display text-lg font-bold mb-4 text-cyan">
                 {category.title}
