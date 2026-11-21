@@ -248,6 +248,51 @@
     animation: marquee 35s linear infinite;
   }
 
+  /* Floating motion via `translate` so it composes with JS-driven transforms */
+  .hero-float {
+    animation: hero-float 7s ease-in-out infinite;
+  }
+
+  /* Falling light streaks in hero */
+  .hero-beam {
+    position: absolute;
+    top: -30%;
+    width: 1px;
+    height: 30%;
+    background: linear-gradient(to bottom, transparent, hsl(var(--primary) / 0.9), transparent);
+    animation: hero-beam linear infinite;
+    opacity: 0;
+  }
+
+  /* Spinning gradient border for badges */
+  .spin-border {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+  }
+
+  .spin-border::before {
+    content: '';
+    position: absolute;
+    inset: -150%;
+    z-index: -2;
+    background: conic-gradient(from 0deg, transparent 0 70%, hsl(var(--primary)) 85%, transparent 100%);
+    animation: spin-border 4s linear infinite;
+  }
+
+  .spin-border::after {
+    content: '';
+    position: absolute;
+    inset: 1px;
+    z-index: -1;
+    border-radius: inherit;
+    background: hsl(var(--card) / 0.9);
+  }
+
+  .marquee-reverse {
+    animation-direction: reverse;
+  }
+
   .marquee:hover .marquee-track {
     animation-play-state: paused;
   }
@@ -284,7 +329,36 @@
   }
 }
 
+@keyframes hero-float {
+  0%, 100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -14px;
+  }
+}
+
+@keyframes hero-beam {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(450%);
+    opacity: 0;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .hero-float,
+  .hero-beam,
+  .spin-border::before,
   .aurora-blob,
   .marquee-track {
     animation: none;
@@ -360,5 +434,11 @@
   }
   100% {
     background-position: 200% 0;
+  }
+}
+
+@keyframes spin-border {
+  to {
+    transform: rotate(360deg);
   }
 }

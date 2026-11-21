@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
+import { TechSlider } from "@/components/TechSlider";
 
 const techCategories = [
   {
@@ -90,6 +91,8 @@ export function TechStackSection() {
             future-proof solutions.
           </p>
         </motion.div>
+
+        <TechSlider />
 
         {/* Tech Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">

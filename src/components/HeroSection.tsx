@@ -1,16 +1,50 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type PointerEvent } from "react";
 import {
   AnimatePresence,
   animate,
   motion,
   useInView,
+  useMotionTemplate,
+  useMotionValue,
   useScroll,
+  useSpring,
   useTransform,
   type Variants,
 } from "framer-motion";
 import { ArrowRight, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import heroBg from "@/assets/hero-bg.jpg";
+import { ParticleField } from "@/components/hero/ParticleField";
+import { FloatingCards } from "@/components/hero/FloatingCards";
+
+const beams = [
+  { left: "12%", delay: "0s", duration: "7s" },
+  { left: "28%", delay: "3.5s", duration: "9s" },
+  { left: "47%", delay: "1.2s", duration: "8s" },
+  { left: "66%", delay: "5s", duration: "10s" },
+  { left: "84%", delay: "2.4s", duration: "7.5s" },
+];
+
+/** Splits text into words that rise out of a blur one after another. */
+function RevealWords({ text, delay = 0 }: { text: string; delay?: number }) {
+  return (
+    <>
+      {text.split(" ").map((word, i) => (
+        <span key={`${word}-${i}`} className="inline-block overflow-hidden pb-[0.08em] align-bottom">
+          <motion.span
+            className="inline-block"
+            initial={{ y: "110%", opacity: 0, filter: "blur(10px)" }}
+            animate={{ y: "0%", opacity: 1, filter: "blur(0px)" }}
+            transition={{ delay: delay + i * 0.12, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          >
+            {word}
+          </motion.span>
+          {" "}
+        </span>
+      ))}
+    </>
+  );
+}
 
 const rotatingWords = ["Scalable", "Secure", "Stunning", "Smart"];
 
@@ -19,11 +53,6 @@ const stats = [
   { value: 10, suffix: "+", label: "Projects Delivered" },
   { value: 5, suffix: "+", label: "Happy Clients" },
   { value: 99, suffix: "%", label: "Client Satisfaction" },
-];
-
-const techLogos = [
-  "React", "Next", "Laravel", "Tailwind", "MySql", "Vue", "Flutter", "Angular",
-  "Php", "JavaScript", "Wordpress", "Woocommerce", "Redux", "MUI", "Stripe", "Figma",
 ];
 
 function Counter({ value, suffix }: { value: number; suffix: string }) {
@@ -93,9 +122,26 @@ export function HeroSection() {
   const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "15%"]);
   const contentOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
+  // Cursor tracking: normalized (-0.5..0.5) for parallax, pixels for the spotlight.
+  const mouseX = useSpring(useMotionValue(0), { stiffness: 60, damping: 20 });
+  const mouseY = useSpring(useMotionValue(0), { stiffness: 60, damping: 20 });
+  const spotX = useMotionValue(-1000);
+  const spotY = useMotionValue(-1000);
+  const spotlight = useMotionTemplate`radial-gradient(600px circle at ${spotX}px ${spotY}px, hsl(var(--primary) / 0.18), transparent 60%)`;
+
+  const handlePointerMove = (event: PointerEvent<HTMLElement>) => {
+    if (event.pointerType !== "mouse") return;
+    const rect = event.currentTarget.getBoundingClientRect();
+    mouseX.set((event.clientX - rect.left) / rect.width - 0.5);
+    mouseY.set((event.clientY - rect.top) / rect.height - 0.5);
+    spotX.set(event.clientX - rect.left);
+    spotY.set(event.clientY - rect.top);
+  };
+
   return (
     <section
       ref={sectionRef}
+      onPointerMove={handlePointerMove}
       className="grain relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden"
     >
       {/* Background image with parallax */}
@@ -117,6 +163,25 @@ export function HeroSection() {
         />
       </div>
 
+      {/* Interactive particle network */}
+      <ParticleField className="absolute inset-0 h-full w-full opacity-70 [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_85%)]" />
+
+      {/* Cursor spotlight */}
+      <motion.div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: spotlight }} />
+
+      {/* Falling light beams */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+        {beams.map((beam) => (
+          <span
+            key={beam.left}
+            className="hero-beam"
+            style={{ left: beam.left, animationDelay: beam.delay, animationDuration: beam.duration }}
+          />
+        ))}
+      </div>
+
+      <FloatingCards mouseX={mouseX} mouseY={mouseY} />
+
       {/* Dot grid with radial fade */}
       <div
         aria-hidden
@@ -130,7 +195,7 @@ export function HeroSection() {
       {/* Content */}
       <motion.div
         style={{ y: contentY, opacity: contentOpacity }}
-        className="container relative z-10 mx-auto px-4 pb-10 pt-28 sm:px-6 lg:px-8"
+        className="container relative z-10 mx-auto px-4 pb-16 pt-28 sm:px-6 lg:px-8"
       >
         <div className="mx-auto max-w-4xl text-center">
           <motion.div
@@ -138,7 +203,7 @@ export function HeroSection() {
             initial="hidden"
             animate="show"
             custom={0}
-            className="mb-8 inline-flex items-center gap-2 rounded-full border border-primary/25 bg-card/50 px-4 py-2 backdrop-blur-md"
+            className="spin-border mb-8 inline-flex items-center gap-2 rounded-full px-4 py-2"
           >
             <span className="relative flex h-2.5 w-2.5">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-500 opacity-75" />
@@ -149,23 +214,25 @@ export function HeroSection() {
             </span>
           </motion.div>
 
-          <motion.h1
-            variants={fadeUp}
-            initial="hidden"
-            animate="show"
-            custom={0.1}
-            className="mb-6 font-display text-4xl font-bold leading-[1.05] tracking-tight sm:text-5xl md:text-6xl lg:text-7xl"
-          >
-            We Build <RotatingWord />
+          <h1 className="mb-6 font-display text-4xl font-bold leading-[1.08] tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
+            <RevealWords text="We Build" delay={0.15} />
+            <motion.span
+              className="inline-block"
+              initial={{ opacity: 0, scale: 0.8, filter: "blur(12px)" }}
+              animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+              transition={{ delay: 0.45, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <RotatingWord />
+            </motion.span>
             <br />
-            Digital Solutions
-          </motion.h1>
+            <RevealWords text="Digital Solutions" delay={0.6} />
+          </h1>
 
           <motion.p
             variants={fadeUp}
             initial="hidden"
             animate="show"
-            custom={0.2}
+            custom={0.85}
             className="mx-auto mb-10 max-w-2xl text-lg text-muted-foreground sm:text-xl"
           >
             We design and engineer web platforms, POS systems, e-commerce stores and SaaS
@@ -176,7 +243,7 @@ export function HeroSection() {
             variants={fadeUp}
             initial="hidden"
             animate="show"
-            custom={0.3}
+            custom={1}
             className="flex flex-col items-center justify-center gap-4 sm:flex-row"
           >
             <Button variant="hero" size="xl" className="group relative w-full overflow-hidden sm:w-auto" asChild>
@@ -199,7 +266,7 @@ export function HeroSection() {
             variants={fadeUp}
             initial="hidden"
             animate="show"
-            custom={0.45}
+            custom={1.15}
             className="mt-16 grid grid-cols-2 gap-4 md:grid-cols-4"
           >
             {stats.map((stat) => (
@@ -217,32 +284,6 @@ export function HeroSection() {
         </div>
       </motion.div>
 
-      {/* Tech marquee */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.9, duration: 0.8 }}
-        className="relative z-10 w-full pb-10"
-      >
-        <p className="mb-4 text-center text-xs font-semibold uppercase tracking-[0.25em] text-muted-foreground/80">
-          Built with modern technology
-        </p>
-        <div className="marquee overflow-hidden">
-          <div className="marquee-track">
-            {[...techLogos, ...techLogos].map((name, i) => (
-              <div
-                key={`${name}-${i}`}
-                className="mr-4 flex h-14 shrink-0 items-center gap-2 rounded-xl border border-border/40 bg-card/60 px-4"
-              >
-                <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-white p-1">
-                  <img src={`/${name}.svg`} alt="" className="h-full w-full object-contain" loading="lazy" />
-                </span>
-                <span className="text-sm font-medium text-muted-foreground">{name === "MySql" ? "MySQL" : name === "Php" ? "PHP" : name === "Next" ? "Next.js" : name}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </motion.div>
     </section>
   );
 }
