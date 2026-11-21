@@ -3,68 +3,6 @@ import { useInView } from "framer-motion";
 import { useRef } from "react";
 import { TechSlider } from "@/components/TechSlider";
 
-const techCategories = [
-  {
-    title: "Frontend",
-    techs: [
-      { name: "React", icon: "⚛️" },
-      { name: "Next.js", icon: "▲" },
-      { name: "Vue.js", icon: "💚" },
-      { name: "TypeScript", icon: "📘" },
-      { name: "Tailwind CSS", icon: "🎨" },
-    ],
-  },
-  {
-    title: "Backend",
-    techs: [
-      { name: "Node.js", icon: "💚" },
-      { name: "Python", icon: "🐍" },
-      { name: "Laravel", icon: "🔴" },
-      { name: "Django", icon: "🟢" },
-      { name: "Go", icon: "🔵" },
-    ],
-  },
-  {
-    title: "Mobile",
-    techs: [
-      { name: "React Native", icon: "📱" },
-      { name: "Flutter", icon: "💙" },
-      { name: "Swift", icon: "🧡" },
-      { name: "Kotlin", icon: "🟣" },
-    ],
-  },
-  {
-    title: "Database",
-    techs: [
-      { name: "PostgreSQL", icon: "🐘" },
-      { name: "MongoDB", icon: "🍃" },
-      { name: "MySQL", icon: "🐬" },
-      { name: "Redis", icon: "🔴" },
-      { name: "Firebase", icon: "🔥" },
-    ],
-  },
-  {
-    title: "Cloud & DevOps",
-    techs: [
-      { name: "AWS", icon: "☁️" },
-      { name: "Google Cloud", icon: "🌐" },
-      { name: "Docker", icon: "🐳" },
-      { name: "Kubernetes", icon: "⚙️" },
-      { name: "GitHub Actions", icon: "🔄" },
-    ],
-  },
-  {
-    title: "Tools & Others",
-    techs: [
-      { name: "GraphQL", icon: "◆" },
-      { name: "REST APIs", icon: "🔗" },
-      { name: "WebSocket", icon: "🔌" },
-      { name: "Jest", icon: "🃏" },
-      { name: "Figma", icon: "🎨" },
-    ],
-  },
-];
-
 export function TechStackSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
@@ -77,7 +15,7 @@ export function TechStackSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5 }}
-          className="text-center mb-16"
+          className="text-center mb-12"
         >
           <span className="section-eyebrow">
             Our Tech Stack
@@ -93,42 +31,6 @@ export function TechStackSection() {
         </motion.div>
 
         <TechSlider />
-
-        {/* Tech Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {techCategories.map((category, categoryIndex) => (
-            <motion.div
-              key={category.title}
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: categoryIndex * 0.1 }}
-              className="spotlight relative glass rounded-2xl p-6 hover-lift"
-            >
-              <h3 className="font-display text-lg font-bold mb-4 text-cyan">
-                {category.title}
-              </h3>
-              <div className="flex flex-wrap gap-2">
-                {category.techs.map((tech, techIndex) => (
-                  <motion.div
-                    key={tech.name}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                    transition={{ 
-                      duration: 0.3, 
-                      delay: categoryIndex * 0.1 + techIndex * 0.05 
-                    }}
-                    className="flex items-center gap-2 px-3 py-2 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors cursor-default group"
-                  >
-                    <span className="text-lg group-hover:scale-110 transition-transform">
-                      {tech.icon}
-                    </span>
-                    <span className="text-sm font-medium">{tech.name}</span>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-          ))}
-        </div>
       </div>
     </section>
   );

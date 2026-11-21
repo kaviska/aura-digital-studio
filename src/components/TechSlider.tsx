@@ -72,7 +72,7 @@ function Row({ items, reverse, duration }: { items: Tech[]; reverse?: boolean; d
 
 export function TechSlider() {
   return (
-    <div className="relative left-1/2 mb-16 w-screen -translate-x-1/2">
+    <div className="relative left-1/2 w-screen -translate-x-1/2">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
