@@ -66,7 +66,7 @@ export function Header() {
         }`}
       >
         <div className="flex h-16 items-center justify-between">
-          <a href="#" className="group flex items-center gap-2">
+          <a href="/" className="group flex items-center gap-2">
             <img
               src="/logo%20(1).png"
               alt="OOLLN logo"

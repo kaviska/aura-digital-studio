@@ -1,28 +1,41 @@
-import { motion } from "framer-motion";
+"use client";
+
+import { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { ArrowUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const footerLinks = {
   services: [
-    { name: "Web Development", href: "#services" },
-    { name: "Mobile Apps", href: "#services" },
-    { name: "UI/UX Design", href: "#services" },
-    { name: "Cloud Services", href: "#services" },
+    { name: "Web Development", href: "/services/web-development" },
+    { name: "Mobile Apps", href: "/services/mobile-app-development" },
+    { name: "UI/UX Design", href: "/services/ui-ux-design" },
+    { name: "Custom Software", href: "/services/saas-custom-software" },
+    { name: "Cloud Services", href: "/services/devops-cloud-services" },
   ],
   company: [
-    { name: "About Us", href: "#about" },
-    { name: "Our Projects", href: "#projects" },
-    { name: "Technologies", href: "#technologies" },
-    { name: "Contact", href: "#contact" },
+    { name: "Our Projects", href: "/#projects" },
+    { name: "About Us", href: "/#about" },
+    { name: "Technologies", href: "/#technologies" },
+    { name: "Contact", href: "/#contact" },
   ],
   legal: [
-    { name: "Privacy Policy", href: "#" },
-    { name: "Terms of Service", href: "#" },
-    { name: "Cookie Policy", href: "#" },
+    { name: "Privacy Policy", href: "/legal/privacy-policy" },
+    { name: "Terms of Service", href: "/legal/terms-of-service" },
+    { name: "Cookie Policy", href: "/legal/cookie-policy" },
   ],
 };
 
 export function Footer() {
+  const [showTop, setShowTop] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setShowTop(window.scrollY > 600);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -33,7 +46,7 @@ export function Footer() {
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Brand */}
           <div className="lg:col-span-1">
-            <a href="#" className="flex items-center gap-2 mb-6">
+            <a href="/" className="flex items-center gap-2 mb-6">
              <img src="/logo%20(1).png" alt="OOLLN logo" width={40} height={40} />
               <span className="font-display font-bold text-xl">OOLLN</span>
             </a>
@@ -99,21 +112,27 @@ export function Footer() {
         </div>
       </div>
 
-      {/* Back to Top */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="fixed bottom-8 right-8 z-40"
-      >
-        <Button
-          variant="hero"
-          size="icon"
-          onClick={scrollToTop}
-          className="rounded-full shadow-lg"
-        >
-          <ArrowUp className="w-5 h-5" />
-        </Button>
-      </motion.div>
+      {/* Back to Top: sits above the WhatsApp button, appears after scrolling */}
+      <AnimatePresence>
+        {showTop && (
+          <motion.div
+            initial={{ opacity: 0, y: 16, scale: 0.8 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 16, scale: 0.8 }}
+            className="fixed bottom-[5.5rem] right-[1.5625rem] z-40 md:bottom-28 md:right-[2.5625rem]"
+          >
+            <Button
+              variant="hero"
+              size="icon"
+              onClick={scrollToTop}
+              aria-label="Back to top"
+              className="rounded-full shadow-lg"
+            >
+              <ArrowUp className="w-5 h-5" />
+            </Button>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </footer>
   );
 }

@@ -33,8 +33,8 @@ const contactInfo = [
   {
     icon: MapPin,
     label: "Location",
-    value: " 383-24 Oyaguchi, Matsudo, Chiba 270-0005, Japan",
-    href: "#",
+    value: "383-24 Oyaguchi, Matsudo, Chiba 270-0005, Japan",
+    href: "https://www.google.com/maps/search/?api=1&query=383-24+Oyaguchi,+Matsudo,+Chiba+270-0005,+Japan",
   },
 ];
 

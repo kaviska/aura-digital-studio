@@ -8,36 +8,42 @@ const services = [
   {
     icon: Globe,
     title: "Web Development",
+    slug: "web-development",
     description: "Custom web applications built with modern frameworks like React, Next.js, and Vue. Responsive, fast, and SEO-optimized.",
     features: ["Progressive Web Apps", "E-commerce Platforms", "Content Management Systems"],
   },
   {
     icon: Smartphone,
     title: "Mobile App Development",
+    slug: "mobile-app-development",
     description: "Native and cross-platform mobile applications for iOS and Android using React Native, Flutter, and Swift.",
     features: ["iOS & Android Apps", "Cross-Platform Solutions", "App Store Optimization"],
   },
   {
     icon: Palette,
     title: "UI/UX Design",
+    slug: "ui-ux-design",
     description: "User-centered design that combines aesthetics with functionality. We create interfaces that users love.",
     features: ["User Research", "Wireframing & Prototyping", "Design Systems"],
   },
   {
     icon: Cloud,
     title: "SaaS & Custom Software",
+    slug: "saas-custom-software",
     description: "End-to-end SaaS product development from concept to launch. Scalable architecture for growing businesses.",
     features: ["Product Strategy", "MVP Development", "Scalable Architecture"],
   },
   {
     icon: Plug,
     title: "API & System Integration",
+    slug: "api-system-integration",
     description: "Seamless integration of third-party services and APIs. Connect your systems for automated workflows.",
     features: ["RESTful & GraphQL APIs", "Third-party Integrations", "Legacy System Migration"],
   },
   {
     icon: Cog,
     title: "DevOps & Cloud Services",
+    slug: "devops-cloud-services",
     description: "Cloud infrastructure setup and management. CI/CD pipelines, containerization, and monitoring.",
     features: ["AWS, GCP, Azure", "Docker & Kubernetes", "CI/CD Pipelines"],
   },
@@ -78,7 +84,7 @@ export function ServicesSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="spotlight group relative glass rounded-2xl p-8 hover-lift"
+              className="spotlight group relative glass rounded-2xl p-8 hover-lift cursor-pointer"
             >
               {/* Icon */}
               <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-cyan to-accent flex items-center justify-center mb-6 group-hover:scale-110 group-hover:-rotate-6 transition-transform duration-300 shadow-lg shadow-primary/20">
@@ -104,10 +110,14 @@ export function ServicesSection() {
               </ul>
 
               {/* Learn More Link */}
-              <div className="flex items-center gap-2 text-cyan font-medium text-sm group-hover:gap-3 transition-all">
+              {/* Stretched link makes the whole card clickable */}
+              <a
+                href={`/services/${service.slug}`}
+                className="flex items-center gap-2 text-cyan font-medium text-sm group-hover:gap-3 transition-all before:absolute before:inset-0 before:rounded-2xl before:content-['']"
+              >
                 Learn More
                 <ArrowRight className="w-4 h-4" />
-              </div>
+              </a>
             </motion.div>
           ))}
         </div>
